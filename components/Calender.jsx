@@ -11,11 +11,20 @@ export const StyleWrapper = styled.div`
         margin-top:0.5rem;
         padding: 0.5rem;
         border-radius: 0;
+        height : 10rem;
      }
     .fc-event p {
         // color: black
     }
-    `
+    .fc-col-header-cell-cushion {
+        color : #8f94ad;
+    }
+    .fc-toolbar-title{
+        color : #8f94ad;
+    }
+ 
+
+`
 
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
@@ -66,15 +75,26 @@ const Calender = () => {
 
     return (
         <>
+
             <StyleWrapper>
-                <h1>Demo App</h1>
-                <FullCalendar
-                    plugins={[dayGridPlugin]}
-                    initialView='dayGridWeek'
-                    weekends={false}
-                    events={events}
-                    eventContent={renderEventContent}
-                />
+                <div class="main-container">
+                    <h1>Demo App</h1>
+                    <FullCalendar
+                        plugins={[dayGridPlugin]}
+                        initialView='dayGridWeek'
+                        weekends={false}
+                        events={events}
+                        eventContent={renderEventContent}
+                        dayHeaderFormat={(date) => {
+                            return moment(date.date).format('dd YY,M');
+                        }}
+                        headerToolbar={{
+                            left: '',
+                            center: 'title',
+                            right: 'prev,next'
+                        }}
+                    />
+                </div>
             </StyleWrapper>
         </>
     )
