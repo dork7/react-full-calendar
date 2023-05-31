@@ -38,6 +38,19 @@ function createData(month, year) {
     return days;
 }
 
+const getEventColorFromCount = (code) => {
+    switch (code) {
+        case 2:
+            return 'yellow';
+        case 3:
+            return 'gray';
+        case 4:
+            return 'green';
+        default:
+            return ''
+    }
+}
+
 const Calender = () => {
     return (
         <>
