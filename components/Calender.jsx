@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import moment from 'moment'
@@ -38,6 +38,22 @@ function createData(month, year) {
     return days;
 }
 
+const createRandomSpeakers = () => {
+  return  Array(Math.floor(Math.random()*10)).fill(1).map((_,idx) => `Speaker ${idx + 1}`)
+}
+
+const createEvent = (spearkerNames = [],speakerCount) => {
+    return {
+        title: '',
+        extendedProps: {
+            name: spearkerNames,
+            time: new moment().format('LTS')
+        },
+        date: dateFormat1,
+        backgroundColor: getEventColorFromCount(speakerCount)
+    }
+}
+
 const getEventColorFromCount = (code) => {
     switch (code) {
         case 2:
@@ -52,6 +68,12 @@ const getEventColorFromCount = (code) => {
 }
 
 const Calender = () => {
+
+    useEffect(() => {
+        console.log(createRandomSpeakers())
+    }, [])
+    
+
     return (
         <>
             <h1>Demo App</h1>
