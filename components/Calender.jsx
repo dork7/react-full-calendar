@@ -1,108 +1,99 @@
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import moment from 'moment'
+import styled from '@emotion/styled'
 
-
-function createData(month, year) {
-    var date = new Date(year, month, 1);
-    var days = [];
-    let i = 1;
-
-
-    while (date.getMonth() === month) {
-        let j = 0
-        while (j < 5) {
-            var now = moment().subtract(1, 'day');
-            let dateFormat1 = moment(date).format('YYYY-MM-DD');
-            if (i === 4) i = 1
-            let spk = []
-            while (i < 4) {
-                i++
-                spk.push(`Speaker ${i}`)
-                days.push({
-                    title: '',
-                    extendedProps: {
-                        name: spk,
-                        time: new moment().format('LTS')
-                    },
-                    date: dateFormat1,
-                    backgroundColor: now.isBefore(date) ? '' : 'gray' //now < date2 ? "orange" : "gray"
-                })
-            }
-            date.setDate(date.getDate() + 1);
-            j++
-        }
+export const StyleWrapper = styled.div`
+    .fc-event {
+        border : 0;
+        margin-top:0.5rem;
+        padding: 0.5rem;
+        border-radius: 0;
+     }
+    .fc-event p {
+        // color: black
     }
-    return days;
-}
+    `
+
+const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 const createRandomSpeakers = () => {
-  return  Array(Math.floor(Math.random()*10)).fill(1).map((_,idx) => `Speaker ${idx + 1}`)
+    return Array(random(1, 4)).fill(1).map((_, idx) => `Speaker ${idx + 1}`)
 }
 
-const createEvent = (spearkerNames = [],speakerCount) => {
+const createEvent = (date, speakers) => {
     return {
         title: '',
         extendedProps: {
-            name: spearkerNames,
-            time: new moment().format('LTS')
+            name: speakers,
+            time: new moment().format("HH:mm"),
+            timeTo: new moment().add(2, 'hours').format("HH:mm") // adding two hours in the time
         },
-        date: dateFormat1,
-        backgroundColor: getEventColorFromCount(speakerCount)
+        date: moment(date).format('YYYY-MM-DD'),
+        backgroundColor: getEventColorFromCount(speakers.length)
     }
 }
 
 const getEventColorFromCount = (code) => {
     switch (code) {
         case 2:
-            return 'yellow';
+            return '#e7c254';
         case 3:
-            return 'gray';
+            return '#a4aab0';
         case 4:
-            return 'green';
+            return '#409cff';
         default:
-            return ''
+            return '#65c1cf'
     }
 }
 
 const Calender = () => {
 
+    const [events, setEvents] = useState([])
+
     useEffect(() => {
-        console.log(createRandomSpeakers())
+        const days = [
+            '2023-05-28', '2023-05-29', '2023-05-30', '2023-05-31', '2023-06-01', '2023-06-02', '2023-06-03', '2023-05-28', '2023-05-29', '2023-05-30', '2023-05-31', '2023-06-01', '2023-06-02', '2023-06-03',
+            '2023-05-28', '2023-05-29', '2023-05-30', '2023-05-31', '2023-06-01', '2023-06-02', '2023-06-03', '2023-05-28', '2023-05-29', '2023-05-30', '2023-05-31', '2023-06-01', '2023-06-02', '2023-06-03', '2023-06-04', '2023-06-02', '2023-06-03', '2023-06-04', '2023-06-05', '2023-06-05', '2023-06-06', '2023-06-07',
+        ]
+
+        const events = days.map(date => createEvent(date, createRandomSpeakers()))
+        setEvents(events)
     }, [])
-    
+
 
     return (
         <>
-            <h1>Demo App</h1>
-            <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView='dayGridWeek'
-                weekends={false}
-                events={createData(4, 2023)}
-                eventContent={renderEventContent}
-            />
+            <StyleWrapper>
+                <h1>Demo App</h1>
+                <FullCalendar
+                    plugins={[dayGridPlugin]}
+                    initialView='dayGridWeek'
+                    weekends={false}
+                    events={events}
+                    eventContent={renderEventContent}
+                />
+            </StyleWrapper>
         </>
     )
 }
-
-
 
 // a custom render function
 function renderEventContent(eventInfo) {
     return (
         <>
 
-            <div>
-                <b>{eventInfo?.event?.extendedProps.time}</b>
-                <b>{eventInfo?.event?.extendedProps?.name?.map((item) => <p style={{
+            <div >
+                <p >{eventInfo?.event?.extendedProps.time} - {eventInfo?.event?.extendedProps.timeTo}</p>
+                <hr />
+                <p>{eventInfo?.event?.extendedProps?.name?.map((item) => <p style={{
                     textAlign: 'center'
                 }}>
                     {item}
                 </p>
-                )}</b>
+                )}</p>
             </div>
 
 
