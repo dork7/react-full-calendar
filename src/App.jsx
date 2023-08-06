@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import CustomCalender from './components/CustomCalender'
 import Calender from './components/SpeakerEvents/Calender'
 
 function App() {
@@ -9,6 +8,7 @@ function App() {
 
   return (
     <>
+      <CustomCalender />
       <Calender />
     </>
   )

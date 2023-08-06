@@ -38,7 +38,7 @@ const Calender = () => {
         <>
 
             <StyleWrapper>
-                <div class="main-container">
+                <div className="main-container">
                     <h1>Demo App</h1>
                     <FullCalendar
                         plugins={[dayGridPlugin]}
@@ -63,7 +63,7 @@ function renderEventContent(eventInfo) {
         <>
 
             <div >
-                <p >{eventInfo?.event?.extendedProps.time} - {eventInfo?.event?.extendedProps.timeTo}</p>
+                <p key={eventInfo?.event?.extendedProps.time}>{eventInfo?.event?.extendedProps.time} - {eventInfo?.event?.extendedProps.timeTo}</p>
                 <hr />
                 <p>{eventInfo?.event?.extendedProps?.name?.map((item) => <p style={{
                     textAlign: 'center'

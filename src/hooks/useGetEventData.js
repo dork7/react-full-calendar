@@ -5,7 +5,7 @@ import moment from 'moment'
 const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 const createRandomSpeakers = () => {
-    return Array(random(1, 5)).fill(1).map((_, idx) => `Speaker ${idx + 1}`)
+    return Array(random(1, 3)).fill(1).map((_, idx) => `Speaker ${idx + 1}`)
 }
 
 const createEvent = (date, speakers) => {
@@ -35,13 +35,13 @@ const getEventColorFromCount = (code) => {
 }
 
 
-export const useGetEventData = () => {
+export const useGetEventData = (dayCount = 8) => {
     const [events, setEvents] = useState([])
 
     useEffect(() => {
         const days = []
-        for (let i = 1; i < 9; i++) {
-            days.push(...Array(5).fill(0).map(item => moment().add(i, 'day').format('YYYY-MM-DD')))
+        for (let i = 0; i < dayCount; i++) {
+            days.push(...Array(2).fill(0).map(item => moment().add(i, 'day').format('YYYY-MM-DD')))
         }
         const events = days.map(date => createEvent(date, createRandomSpeakers()))
         setEvents(events)
